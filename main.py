@@ -6,14 +6,6 @@ import os
 # ASGI app variable
 app = FastAPI()
 
-
-def setup_lang(lang: str):
-    # download to make sure we have the model
-    stanza.download(lang)
-    # construct pipeline
-    pipelines[lang] = stanza.Pipeline(lang)
-    return f"Successfully set up model for {lang}!"
-
 # this is where our configured pipelines go, one per language
 pipelines = {}
 languages = None
@@ -22,6 +14,14 @@ if 'STANZA_LANGUAGES' in os.environ.keys():
 else:
     # fallback
     languages = ['en', 'de', 'pt']
+
+def setup_lang(lang: str):
+    # download to make sure we have the model
+    stanza.download(lang)
+    # construct pipeline
+    pipelines[lang] = stanza.Pipeline(lang)
+    return f"Successfully set up model for {lang}!"
+
 for lang in languages:
     setup_lang(lang)
 
